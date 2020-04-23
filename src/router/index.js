@@ -1,22 +1,51 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-
 Vue.use(VueRouter)
 
 const routes = [
+  { path: '/', redirect: '/movie/nowPlaying' },
+  { path: '/movie', redirect: '/movie/nowPlaying' },
+  { path: '/cinema', redirect: '/cinema/quancheng' },
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: '/movie',
+    component: () => import('../views/Movie'),
+    children: [
+      {
+        path: 'city',
+        component: () => import('../components/City')
+      },
+      {
+        path: 'nowPlaying',
+        component: () => import('../components/NowPlaying')
+      },
+      {
+        path: 'comingSoon',
+        component: () => import('../components/ComingSoon')
+      },
+      {
+        path: 'search',
+        component: () => import('../components/Search')
+      }
+    ]
   },
+  { path: '/mine', component: () => import('../views/Mine') },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/cinema',
+    component: () => import('../views/Cinema'),
+    children: [
+      {
+        path: 'quancheng',
+        component: () => import('../components/Quancheng')
+      },
+      {
+        path: 'pinpai',
+        component: () => import('../components/Pinpai')
+      },
+      {
+        path: 'tese',
+        component: () => import('../components/Tese')
+      }
+    ]
   }
 ]
 
