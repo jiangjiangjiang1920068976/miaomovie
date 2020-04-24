@@ -1,51 +1,15 @@
 <template lang="">
     <div class='nowplay'>
         <ul>
-          <li>
+          <li v-for='item in movieList' :key='item.id'>
             <div class='pic'>
-              <img src='/images/pic.jpg' />
+              <img :src="item.img | setWH('128.180') "/>
             </div>
             <div class='box'>
-              <h4>无名之辈</h4>
-              <p>观众评<span>9.3</span></p>
-              <p>主演:</p>
-              <p>今天是</p>
-              <div class='goupiao'>购票</div>
-            </div>
-          </li>
-          <li>
-            <div>
-              <img src='/images/pic.jpg' />
-            </div>
-            <div class='box'>
-              <h4>无名之辈</h4>
-              <p>观众评<span>9.2</span></p>
-              <p>主演:</p>
-              <p>今天是</p>
-              <div class='goupiao'>购票</div>
-            </div>
-          </li>
-           <li>
-            <div>
-              <img src='/images/pic.jpg' />
-            </div>
-            <div class='box'>
-              <h4>无名之辈</h4>
-              <p>观众评<span>9.2</span></p>
-              <p>主演:</p>
-              <p>今天是</p>
-              <div class='goupiao'>购票</div>
-            </div>
-          </li>
-           <li>
-            <div>
-              <img src='/images/pic.jpg' />
-            </div>
-            <div class='box'>
-              <h4>无名之辈</h4>
-              <p>观众评<span>9.2</span></p>
-              <p>主演:</p>
-              <p>今天是</p>
+              <h4>{{ item.nm }}</h4>
+              <p>观众评:<span>{{ item.sc }}</span></p>
+              <p>主演:{{ item.star }}</p>
+              <p>{{ item.showInfo }}</p>
               <div class='goupiao'>购票</div>
             </div>
           </li>
@@ -54,18 +18,30 @@
 </template>
 <script>
 export default {
-  name: 'NowPlaying'
+  name: 'NowPlaying',
+  data () {
+    return {
+      movieList: []
+    }
+  },
+  mounted () {
+    this.$http.get('/api/movieOnInfoList?cityId=10').then((res) => {
+      if (res.data.msg === 'ok') {
+        this.movieList = res.data.data.movieList
+      }
+    })
+  }
 }
 </script>
 <style lang="scss" scoped>
 .nowplay {
   margin-top: 45px;
+  z-index: -888;
   ul li {
     display: flex;
     height: 100px;
     border-bottom: 0.3px solid #ccc;
     padding: 13px;
-    align-items: center;
     position: relative;
     .box {
       margin-left: 13px;
@@ -93,7 +69,7 @@ export default {
     border-bottom: none;
   }
   img {
-    width: 90px;
+    width: 75px;
     height: 100px;
   }
 }
