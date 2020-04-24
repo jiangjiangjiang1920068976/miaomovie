@@ -35,8 +35,8 @@ export default {
     border-top: 0;
     border-left: 0;
     border-right: 0;
-    padding-left: 10px;
     font-size: 14px;
+    text-indent: 14px;
   }
   .btn {
     padding: 10px;

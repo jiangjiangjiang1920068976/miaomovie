@@ -1,81 +1,14 @@
 <template>
     <div class="quancheng">
       <ul>
-        <li>
+        <li v-for='item in cinemas' :key='item.id'>
           <div class='box1'>
             <p class='p1'>
-              <span class='span1'>大地影院(奥东世纪城店)</span>
-              <span class='span2'>22.9<span>元起</span></span>
+              <span class='span1'>{{ item.nm }}</span>
             </p>
-            <p class="p2">金州区大连经济开发区佛东世纪3层<span>176.3km</span></p>
-            <p class="p3">
-              <span>小吃</span>
-              <span>折扣卡</span>
-            </p>
-          </div>
-        </li>
-        <li>
-          <div class='box1'>
-            <p class='p1'>
-              <span class='span1'>大地影院(奥东世纪城店)</span>
-              <span class='span2'>22.9<span>元起</span></span>
-            </p>
-            <p class="p2">金州区大连经济开发区佛东世纪3层<span>176.3km</span></p>
-            <p class="p3">
-              <span>小吃</span>
-              <span>折扣卡</span>
-            </p>
-          </div>
-        </li>
-        <li>
-          <div class='box1'>
-            <p class='p1'>
-              <span class='span1'>大地影院(奥东世纪城店)</span>
-              <span class='span2'>22.9<span>元起</span></span>
-            </p>
-            <p class="p2">金州区大连经济开发区佛东世纪3层<span>176.3km</span></p>
-            <p class="p3">
-              <span>小吃</span>
-              <span>折扣卡</span>
-            </p>
-          </div>
-        </li>
-        <li>
-          <div class='box1'>
-            <p class='p1'>
-              <span class='span1'>大地影院(奥东世纪城店)</span>
-              <span class='span2'>22.9<span>元起</span></span>
-            </p>
-            <p class="p2">金州区大连经济开发区佛东世纪3层<span>176.3km</span></p>
-            <p class="p3">
-              <span>小吃</span>
-              <span>折扣卡</span>
-            </p>
-          </div>
-        </li>
-        <li>
-          <div class='box1'>
-            <p class='p1'>
-              <span class='span1'>大地影院(奥东世纪城店)</span>
-              <span class='span2'>22.9<span>元起</span></span>
-            </p>
-            <p class="p2">金州区大连经济开发区佛东世纪3层<span>176.3km</span></p>
-            <p class="p3">
-              <span>小吃</span>
-              <span>折扣卡</span>
-            </p>
-          </div>
-        </li>
-        <li>
-          <div class='box1'>
-            <p class='p1'>
-              <span class='span1'>大地影院(奥东世纪城店)</span>
-              <span class='span2'>22.9<span>元起</span></span>
-            </p>
-            <p class="p2">金州区大连经济开发区佛东世纪3层<span>176.3km</span></p>
-            <p class="p3">
-              <span>小吃</span>
-              <span>折扣卡</span>
+            <p class="p2">{{ item.addr }}<span>{{ item.distance }}</span></p>
+            <p class="p3" v-for='(num,key) in item.tag' :key='key'>
+              <span v-if="num==1" :class='key | classCard'>{{ key | formatkey }}</span>
             </p>
           </div>
         </li>
@@ -84,7 +17,49 @@
 </template>
 <script>
 export default {
-  name: 'Quancheng'
+  name: 'Quancheng',
+  data () {
+    return {
+      cinemas: []
+    }
+  },
+  mounted () {
+    this.$http.get('/api/cinemaList?cityId=10').then((res) => {
+      if (res.data.msg === 'ok') {
+        this.cinemas = res.data.data.cinemas
+      }
+    })
+  },
+  filters: {
+    formatkey (key) {
+      var card = [
+        { key: 'allowRefund', value: '改签' },
+        { key: 'endorse', value: '退' },
+        { key: 'sell', value: '折扣卡' },
+        { key: 'snack', value: '小吃' }
+      ]
+      for (var i = 0; i < card.length; i++) {
+        if (card[i].key === key) {
+          return card[i].value
+        }
+      }
+      return ''
+    },
+    classCard (key) {
+      var card = [
+        { key: 'allowRefund', value: 'or' },
+        { key: 'endorse', value: 'or' },
+        { key: 'sell', value: 'bl' },
+        { key: 'snack', value: 'bl' }
+      ]
+      for (var i = 0; i < card.length; i++) {
+        if (card[i].key === key) {
+          return card[i].value
+        }
+      }
+      return ''
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -92,24 +67,16 @@ export default {
   margin-top: 45px;
   ul li {
     display: flex;
-    height: 80px;
     border-bottom: 0.3px solid #ccc;
     padding: 13px;
     align-items: center;
+    position: relative;
+    z-index: -9999;
     .box1 {
       .p1 {
         .span1 {
           font-size: 16px;
           font-weight: 600;
-        }
-        .span2 {
-          font-size: 18px;
-          color: red;
-          margin-left: 4px;
-          span {
-            font-size: 13px;
-            margin-left: 3px;
-          }
         }
       }
       .p2 {
@@ -118,16 +85,24 @@ export default {
         padding: 8px 0;
         span {
           position: absolute;
+          bottom: 15px;
           right: 15px;
+          z-index: -9999;
         }
       }
       .p3 {
+        float: left;
         span {
           font-size: 13px;
           border: 1px solid orange;
           color: orange;
           margin-right: 6px;
           border-radius: 4px;
+          padding: 2px 3px;
+        }
+        .bl {
+          border: 1px solid rgb(139, 139, 214);
+          color: rgb(139, 139, 214);
         }
       }
     }
