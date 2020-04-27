@@ -1,5 +1,7 @@
 <template>
     <div class="quancheng">
+      <Loading v-if='isloading'></Loading>
+      <Scroll v-else>
       <ul>
         <li v-for='item in cinemas' :key='item.id'>
           <div class='box1'>
@@ -13,6 +15,7 @@
           </div>
         </li>
       </ul>
+      </Scroll>
     </div>
 </template>
 <script>
@@ -20,13 +23,21 @@ export default {
   name: 'Quancheng',
   data () {
     return {
-      cinemas: []
+      cinemas: [],
+      isloading: true,
+      preCity: -1
     }
   },
   mounted () {
-    this.$http.get('/api/cinemaList?cityId=10').then((res) => {
+    var city = this.$store.state.city.id
+    // 如果当前id相等 则不用再发起请求
+    if (this.preCity === city) return
+    this.isloading = true
+    this.$http.get('/api/cinemaList?cityId=' + city).then((res) => {
       if (res.data.msg === 'ok') {
         this.cinemas = res.data.data.cinemas
+        this.isloading = false
+        this.preCity = city
       }
     })
   },
@@ -65,6 +76,11 @@ export default {
 <style lang="scss" scoped>
 .quancheng {
   margin-top: 45px;
+  flex: 1;
+  overflow: auto;
+  ul {
+    z-index: -2;
+  }
   ul li {
     display: flex;
     border-bottom: 0.3px solid #ccc;

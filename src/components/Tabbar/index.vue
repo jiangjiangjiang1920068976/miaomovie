@@ -1,5 +1,4 @@
 <template lang="">
-    <div>
         <footer id='footer'>
           <ul>
             <router-link tag='li' to='/movie'>
@@ -16,7 +15,6 @@
             </router-link>
           </ul>
         </footer>
-    </div>
 </template>
 <script>
 export default {

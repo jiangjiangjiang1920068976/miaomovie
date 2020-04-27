@@ -25,6 +25,28 @@ const routes = [
       {
         path: 'search',
         component: () => import('../components/Search')
+      },
+      {
+        path: 'detail/1/:movieId',
+        components: {
+          default: () => import('../components/NowPlaying'),
+          detail: () => import('../views/Movie/detail')
+        },
+        // 直接将参数传递过去 如果没有使用动态视图 可以直接props: true
+        // 对于包含命名视图的路由，你必须分别为每个命名视图添加 `props` 选项：
+        props: {
+          detail: true
+        }
+      },
+      {
+        path: 'detail/2/:movieId',
+        components: {
+          default: () => import('../components/ComingSoon'),
+          detail: () => import('../views/Movie/detail')
+        },
+        props: {
+          detail: true
+        }
       }
     ]
   },

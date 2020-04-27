@@ -40,6 +40,7 @@ export default {
   .cinema_header {
     position: fixed;
     width: 100%;
+    height: 45px;
     background-color: #fff;
   }
 }

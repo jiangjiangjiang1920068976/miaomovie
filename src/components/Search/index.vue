@@ -1,5 +1,5 @@
 <template>
-  <div id="content">
+  <div class="content">
     <div class="search">
       <div class="box1">
         <i class="iconfont icon-search"></i>
@@ -46,8 +46,9 @@ export default {
   watch: {
     message (newVal) {
       var that = this
+      var city = this.$store.state.city.id
       this.cancelRequest()
-      this.$http.get('/api/searchList?cityId=10&kw=' + newVal, {
+      this.$http.get('/api/searchList?cityId=10' + city + '&kw=' + newVal, {
         cancelToken: new this.$http.CancelToken(function (c) {
           that.source = c
         })
@@ -68,15 +69,30 @@ export default {
 }
 </script>
 <style lang="scss">
-.search {
-  background-color: rgba(204, 204, 204, 0.2);
+.content {
+  margin-top: 45px;
   width: 100%;
-  height: 50px;
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+.search {
+  width: 100%;
+  height: 30px;
+  padding: 15px 0;
+  position: absolute;
+  z-index: 999;
+  // background-color: rgb(235, 233, 233);
+  background-color: #fff;
+  border-top: 0.4px solid #ccc;
+  margin-top: -1px;
   .box1 {
     height: 25px;
-    margin: 12.5px;
+    margin: 0 12.5px;
     background-color: #fff;
     border-radius: 5px;
+    border: 1px solid orange;
     i {
       position: absolute;
       line-height: 25px;
@@ -92,21 +108,25 @@ export default {
   }
 }
 .box2 {
-  height: 40px;
+  width: 100%;
+  margin-top: 50px;
+  height: 36px;
   border-bottom: 0.5px solid #ccc;
-  line-height: 40px;
+  line-height: 36px;
   padding-left: 10px;
   color: rgb(134, 130, 130);
-  z-index: -777;
+  background-color: #fff;
 }
 .search_box {
-  z-index: -888;
+  z-index: -8888;
+  flex: 1;
   ul li {
     display: flex;
     height: 100px;
     border-bottom: 0.3px solid #ccc;
     padding: 13px;
     position: relative;
+    z-index: -9999;
     .box3 {
       margin-left: 13px;
       p {
