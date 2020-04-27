@@ -1,11 +1,11 @@
 <template lang="">
     <div id='main'>
-          <Header></Header>
-          <div id='content'>
+        <Header></Header>
+        <div id='content'>
             <div class='header'>
                 <div class='movie_menu'>
                   <router-link class='city_name' tag='div' to='city'>
-                    <span>大连</span>
+                    <span>{{$store.state.city.nm}}</span>
                     <i class='iconfont icon-triangle'></i>
                   </router-link>
                   <div class='hot_switch'>
@@ -15,12 +15,15 @@
                   <router-link class='search_entry' tag='div' to='search'>
                     <i class='iconfont icon-search'></i>
                   </router-link>
-              </div>
-              </div>
-              <router-view></router-view>
-              <!-- <NowPlaying></NowPlaying> -->
-          </div>
+                </div>
+            </div>
+            <keep-alive>
+            <router-view></router-view>
+            </keep-alive>
+            <!-- <NowPlaying></NowPlaying> -->
+        </div>
         <Tabbar />
+        <router-view name='detail' />
     </div>
 </template>
 <script>
@@ -37,12 +40,20 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.hed {
+  height: 50px;
+}
 #content {
   margin-top: 50px;
   .header {
     position: fixed;
     width: 100%;
     background-color: #fff;
+    z-index: 999;
+    height: 45px;
+  }
+  .rout {
+    display: flex;
   }
 }
 .movie_menu {
