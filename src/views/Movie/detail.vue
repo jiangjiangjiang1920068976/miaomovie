@@ -102,12 +102,12 @@ export default {
     }
     ul {
       display: flex;
-      font-size: 13px;
+      font-size: 12px;
       padding: 7px 0;
       height: 20px;
       li {
         line-height: 20px;
-        margin-right: 7px;
+        margin-right: 5px;
         color: rgba(0,0,0,0.5);
         i {
           color: #e54847;
@@ -129,7 +129,7 @@ export default {
     }
     .right_jt {
       position: absolute;
-      right: 28px;
+      right: 10px;
       top: 25px;
       font-size: 25px;
       color: rgba(0,0,0,0.3);
